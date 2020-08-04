@@ -1,0 +1,8 @@
+Resources
+  Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref SeslambdaLambdaFunction
+      Principal: ses.amazonaws.com
+      SourceAccount: !Ref AWS::AccountId                

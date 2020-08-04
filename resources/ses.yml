@@ -1,0 +1,20 @@
+Resources:            
+        SES:
+            Type: AWS::SES::ReceiptRule
+            DependsOn: S3Bucket
+            Properties:
+                RuleSetName: !Ref SESRulesetName
+                Rule:
+                    Actions: 
+                        - S3Action: 
+                            BucketName: !Ref S3Bucket
+                        - LambdaAction: 
+                            FunctionArn: !GetAtt SeslambdaLambdaFunction.Arn 
+                            InvocationType: Event
+                        - StopAction: 
+                            Scope: RuleSet
+                    Enabled: true
+                    Name: test-ses-rule-name
+                    Recipients: 
+                        - no-reply@marketing28122.omnilogistics.com
+                    ScanEnabled: true

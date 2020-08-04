@@ -1,7 +1,7 @@
 service: omni-crm
 provider:
   name: aws
-  runtime: python2.7
+  runtime: python3.7
   region: us-east-1
   iamRoleStatements:
    - Effect: "Allow"
@@ -10,104 +10,19 @@ provider:
         - s3:PutObject
         - s3:GetObject
      Resource: '*'
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
 functions:
     seslambda:
         timeout: 300
         handler: dynamics-crm-prod.lambda_handler
         environment:
             BUCKET: !Ref S3Bucket
- #           SNSvar: !Ref SNSName
-#    events:
-#      - s3: 
-#        bucket: !Ref S3Bucket
-#        event: s3:ObjectCreated:*
-#      - sns: greeter-topic
-
 
 resources:
-    Resources:
-        S3Bucket:
-            DeployedBY: BizCloudExperts
-            Application : Microsoft-dynamics
-            Environment: ${self:provider.stage}
-            Type: AWS::S3::Bucket
-            DeletionPolicy: Retain
-            Properties: 
-                BucketName: test-buck-11 
-
-        Permission:
-            Type: AWS::Lambda::Permission
-            Properties:
-                Action: lambda:InvokeFunction
-                FunctionName: !Ref SeslambdaLambdaFunction
-                Principal: ses.amazonaws.com
-                SourceAccount: !Ref AWS::AccountId
-
-        BucketPolicy:
-            DeployedBY: BizCloudExperts
-            Application : Microsoft-dynamics
-            Environment: ${self:provider.stage}
-            Type: AWS::S3::BucketPolicy
-            Properties: 
-                Bucket: 
-                    Ref: S3Bucket
-                PolicyDocument: 
-                    Statement: 
-                        - 
-                            Action: 
-                                - "s3:PutObject"
-                            Effect: "Allow"
-                            Resource: 
-                                Fn::Join: 
-                                    - ""
-                                    - 
-                                        - "arn:aws:s3:::"
-                                        - test-buck-11
-                                        - "/*"
-                            Principal: "*"
-                            Condition: 
-                                StringEquals: 
-                                    aws:Referer: 
-                                        - "535687408418"            
-        SESRulesetName:
-            DeployedBY: BizCloudExperts
-            Application : Microsoft-dynamics
-            Environment: ${self:provider.stage}
-            Type: AWS::SES::ReceiptRuleSet
-            Properties:
-                RuleSetName: test-ruleset-dynamics-crm
-        SES:
-            DeployedBY: BizCloudExperts
-            Application : Microsoft-dynamics
-            Environment: ${self:provider.stage}
-            Type: AWS::SES::ReceiptRule
-            DependsOn: S3Bucket
-            Properties:
-                RuleSetName: !Ref SESRulesetName
-                Rule:
-                    Actions: 
-                        - S3Action: 
-                            BucketName: !Ref S3Bucket
-                        - LambdaAction: 
-                            FunctionArn: !GetAtt SeslambdaLambdaFunction.Arn 
-                            InvocationType: Event
-                        - StopAction: 
-                            Scope: RuleSet
-                    Enabled: true
-                    Name: test-ses-rule-name
-                    Recipients: 
-                        - no-reply@marketing28122.omnilogistics.com
-                    ScanEnabled: true
-
+- ${file(resources/lambda-permissions.yml)}
+- ${file(resources/s3bucket.yml)}
+- ${file(resources/bucket-policy.yml)}
+- ${file(resources/ses-ruleset-name.yml)}
+- ${file(resources/ses.yml)}
 
 
 
