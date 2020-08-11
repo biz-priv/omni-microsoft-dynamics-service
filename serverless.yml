@@ -1,5 +1,9 @@
 service: omni-crm
 provider:
+  stackTags:
+    DeployedBY: BizCloudExperts
+    Application: Microsoft-dynamics
+    Environment: ${self:provider.stage}
   name: aws
   runtime: python3.7
   region: us-east-1
@@ -10,16 +14,13 @@ provider:
         - s3:PutObject
         - s3:GetObject
      Resource: '*'
+  
 functions:
-    seslambda:
-        timeout: 300
-        handler: dynamics-crm-prod.lambda_handler
-        environment:
-            BUCKET: !Ref S3Bucket
+- ${file(functions/seslambda.yml)}
 
 resources:
-- ${file(resources/lambda-permissions.yml)}
 - ${file(resources/s3bucket.yml)}
+- ${file(resources/lambda-permissions.yml)}
 - ${file(resources/bucket-policy.yml)}
 - ${file(resources/ses-ruleset-name.yml)}
 - ${file(resources/ses.yml)}

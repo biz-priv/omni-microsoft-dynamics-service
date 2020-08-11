@@ -3,4 +3,5 @@ Resources:
             Type: AWS::S3::Bucket
             DeletionPolicy: Retain
             Properties: 
-                BucketName: test-buck-12
+                BucketName: omni-crm
+                AccessControl: Private

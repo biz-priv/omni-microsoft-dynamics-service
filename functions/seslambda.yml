@@ -1,0 +1,5 @@
+seslambda:
+  timeout: 300
+  handler: dynamics-crm-prod.lambda_handler
+  environment:
+    BUCKET: !Ref S3Bucket

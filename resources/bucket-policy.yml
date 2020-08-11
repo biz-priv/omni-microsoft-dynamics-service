@@ -15,7 +15,7 @@ Resources:
                                     - ""
                                     - 
                                         - "arn:aws:s3:::"
-                                        - test-buck-12
+                                        - omni-crm
                                         - "/*"
                             Principal: "*"
                             Condition: 
