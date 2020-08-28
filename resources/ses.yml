@@ -14,7 +14,7 @@ Resources:
                         - StopAction: 
                             Scope: RuleSet
                     Enabled: true
-                    Name: test-ses-rule-name
+                    Name: dynamics-ses-rule-name
                     Recipients: 
                         - no-reply@marketing28122.omnilogistics.com
                     ScanEnabled: true

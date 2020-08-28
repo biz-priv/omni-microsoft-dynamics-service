@@ -2,4 +2,4 @@ Resources:
         SESRulesetName:
             Type: AWS::SES::ReceiptRuleSet
             Properties:
-                RuleSetName: test-ruleset-dynamics-crm
+                RuleSetName: dynamics-ruleset-dynamics-crm

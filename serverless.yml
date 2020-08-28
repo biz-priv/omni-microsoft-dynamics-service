@@ -14,6 +14,7 @@ provider:
         - s3:PutObject
         - s3:GetObject
      Resource: '*'
+
   
 functions:
 - ${file(functions/seslambda.yml)}
@@ -24,9 +25,3 @@ resources:
 - ${file(resources/bucket-policy.yml)}
 - ${file(resources/ses-ruleset-name.yml)}
 - ${file(resources/ses.yml)}
-
-
-
-
-
-

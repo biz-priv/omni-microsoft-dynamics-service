@@ -21,4 +21,4 @@ Resources:
                             Condition: 
                                 StringEquals: 
                                     aws:Referer: 
-                                        - "535687408418"
+                                        - "332281781429"
